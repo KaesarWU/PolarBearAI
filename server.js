@@ -5,9 +5,9 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public')); // Serve frontend files
+app.use(express.static('public'));
 
-const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY; // Set in Vercel
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
 
 app.post('/api/chat', async (req, res) => {
     try {
@@ -26,11 +26,14 @@ app.post('/api/chat', async (req, res) => {
             }
         );
 
-        const reply = response.data.choices?.[0]?.message?.content || "No response from AI";
-        res.json({ reply });
+        res.json({ 
+            reply: response.data.choices?.[0]?.message?.content || "🐻‍❄️ No response from AI" 
+        });
     } catch (error) {
         console.error('API Error:', error);
-        res.status(500).json({ error: "Arctic connection trouble! ❄️🐻‍❄️" });
+        res.status(500).json({ 
+            error: "❄️ Arctic connection trouble! Try again later." 
+        });
     }
 });
 
